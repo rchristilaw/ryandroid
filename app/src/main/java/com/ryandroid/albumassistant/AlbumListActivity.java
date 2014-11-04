@@ -27,7 +27,7 @@ public class AlbumListActivity extends ListActivity {
 
     }
 
-    //test comment
+    
     public void onListItemClick(ListView parent, View v, int position, long id)
     {
         albums.get(position).downloadAlbumCover();
