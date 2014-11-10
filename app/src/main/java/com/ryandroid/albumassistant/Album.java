@@ -4,10 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -15,7 +16,7 @@ import java.net.URLConnection;
 /**
  * Created by Ryan on 2014-10-25.
  */
-public class Album implements Serializable {
+public class Album implements Parcelable {
 
     // JSON Node names
     public static final String TAG_TYPE = "wrapperType";
@@ -39,7 +40,9 @@ public class Album implements Serializable {
     private String albumCoverUrl = "";
     private Bitmap albumCover = null;
 
+    public Album(){
 
+    }
     public String getArtistName() {
         return artistName;
     }
@@ -104,6 +107,44 @@ public class Album implements Serializable {
     @Override
     public String toString() {
         return "Artist: " + this.artistName + "\nAlbum: " + this.albumName + "\nPrice: " + this.albumPrice + "\nRelease Date: " + this.releaseDate;
+    }
+
+    @SuppressWarnings("unused")
+    public Album(Parcel in) {
+        this();
+        readFromParcel(in);
+    }
+
+    private void readFromParcel(Parcel in) {
+        this.artistName = in.readString();
+        this.albumName = in.readString();
+        this.albumPrice = in.readString();
+        this.releaseDate = in.readString();
+        this.albumCoverUrl = in.readString();
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public final Parcelable.Creator<Album> CREATOR = new Parcelable.Creator<Album>() {
+        public Album createFromParcel(Parcel in) {
+            return new Album(in);
+        }
+
+        public Album[] newArray(int size) {
+            return new Album[size];
+        }
+    };
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(artistName);
+        dest.writeString(albumName);
+        dest.writeString(albumPrice);
+        dest.writeString(releaseDate);
+        dest.writeString(albumCoverUrl);
     }
 
     class GetImageRequest extends AsyncTask<String, Void, Object>

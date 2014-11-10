@@ -1,8 +1,6 @@
 package com.ryandroid.albumassistant;
 
-import android.app.Activity;
 import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,13 +9,12 @@ import android.widget.ListView;
 import com.ryandroid.albumassistant.dummy.DummyContent;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  * <p />
  * <p />
- * Activities containing this fragment MUST implement the {@link Callbacks}
+ * Activities containing this fragment MUST implement th
  * interface.
  */
 public class AlbumListFragment extends ListFragment {
@@ -28,7 +25,7 @@ public class AlbumListFragment extends ListFragment {
     private static final String ARG_PARAM2 = "param2";
 
 
-    private ArrayList<Album> albumArrayList;
+    private ArrayList<Album> albums;
 
 
 
@@ -39,11 +36,10 @@ public class AlbumListFragment extends ListFragment {
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types of parameters
-    public static AlbumListFragment newInstance(String param1, String param2) {
+    public static AlbumListFragment newInstance(ArrayList<Album> albumList) {
         AlbumListFragment fragment = new AlbumListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelableArrayList("albumList", albumList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,34 +51,48 @@ public class AlbumListFragment extends ListFragment {
     public AlbumListFragment() {
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        Intent i = getIntent();
-        albums = (ArrayList<Album>) i
-                .getSerializableExtra("albumListData");
+//        getArguments()
+//        Intent i = getIntent();
+//        albums = (ArrayList<Album>) i
+//                .getSerializableExtra("albumListData");
+
+        Bundle b = getArguments();
+        albums = b.getParcelableArrayList("albumList");
+
+        setListAdapter(new ArrayAdapter<Album>(getActivity(), android.R.layout.simple_list_item_1, albums));
+
 
         // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+        //setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+          //      android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
 
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        View view =
+//
+//
+//        return view;
+//    }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
-        }
-    }
+//
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        try {
+//            mListener = (OnFragmentInteractionListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                + " must implement OnFragmentInteractionListener");
+//        }
+//    }
 
     @Override
     public void onDetach() {
