@@ -1,12 +1,12 @@
 package com.ryandroid.albumassistant;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.ryandroid.albumassistant.dummy.DummyContent;
 
 import java.util.ArrayList;
 
@@ -19,23 +19,8 @@ import java.util.ArrayList;
  */
 public class AlbumListFragment extends ListFragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-
     private ArrayList<Album> albums;
 
-
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    // TODO: Rename and change types of parameters
     public static AlbumListFragment newInstance(ArrayList<Album> albumList) {
         AlbumListFragment fragment = new AlbumListFragment();
         Bundle args = new Bundle();
@@ -56,31 +41,12 @@ public class AlbumListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        getArguments()
-//        Intent i = getIntent();
-//        albums = (ArrayList<Album>) i
-//                .getSerializableExtra("albumListData");
-
         Bundle b = getArguments();
         albums = b.getParcelableArrayList("albumList");
 
         setListAdapter(new ArrayAdapter<Album>(getActivity(), android.R.layout.simple_list_item_1, albums));
 
-
-        // TODO: Change Adapter to display your content
-        //setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-          //      android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View view =
-//
-//
-//        return view;
-//    }
 
 //
 //    @Override
@@ -93,23 +59,25 @@ public class AlbumListFragment extends ListFragment {
 //                + " must implement OnFragmentInteractionListener");
 //        }
 //    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
+        AlbumViewFragment albumViewFrag = AlbumViewFragment.newInstance( albums.get(position));
+
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, albumViewFrag);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     /**

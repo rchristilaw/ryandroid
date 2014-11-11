@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -114,7 +113,7 @@ public class SearchFragment extends Fragment {
         progressSpinner.setVisibility(View.VISIBLE);
         new HttpRequestSearchAsync().execute(searchVal);
     }
-
+//
 //    @Override
 //    public void onAttach(Activity activity) {
 //        super.onAttach(activity);
@@ -144,7 +143,7 @@ public class SearchFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onFragmentInteraction(Fragment frag);
     }
 
     public void DisplayResults(ArrayList<Album> searchResults)
@@ -153,12 +152,11 @@ public class SearchFragment extends Fragment {
         albumListActivityIntent.putExtra("albumListData", searchResults);
         AlbumListFragment albumListFrag = AlbumListFragment.newInstance(searchResults);
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_search, albumListFrag);
+        fragmentTransaction.replace(R.id.fragment_container, albumListFrag);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
-        //startActivity(albumListActivityIntent);
     }
 
     class HttpRequestSearchAsync extends AsyncTask<String, Void, ArrayList<Album>>

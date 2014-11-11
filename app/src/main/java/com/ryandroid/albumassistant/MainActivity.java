@@ -1,6 +1,9 @@
 package com.ryandroid.albumassistant;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,20 +14,16 @@ public class MainActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        SearchFragment searchFragment = new SearchFragment();
 
         setContentView(R.layout.activity_main);
 
-      //  Fragment searchFragment = new SearchFragment();
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_place, searchFragment);
-//        fragmentTransaction.commit();
+        Fragment searchFragment = new SearchFragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, searchFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
-
-    }
-
-    public void onFragmentInteraction(String test){
     }
 
     @Override
