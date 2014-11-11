@@ -21,7 +21,6 @@ public class MainActivity extends Activity{
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, searchFragment);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
     }

@@ -1,24 +1,19 @@
 package com.ryandroid.albumassistant;
 
 
-
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 
 
 /**
@@ -49,73 +44,83 @@ public class AlbumViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        View view = inflater.inflate(R.layout.fragment_albumview, container, false);
+
         Bundle b = getArguments();
         album = b.getParcelable("album");
 
+        albumNameView = (TextView) view.findViewById(R.id.albumNameTextView);
+        albumNameView.setText(album.getAlbumName());
+        albumCoverView = (ImageView) view.findViewById(R.id.albumCoverImage);
 
-        new GetImageRequest().execute(album.getAlbumCoverUrl());
+        new GetImageRequest(albumCoverView).execute(album.getAlbumCoverUrl());
 
 
-        return inflater.inflate(R.layout.fragment_albumview, container, false);
+        return view;
     }
 
-    class GetImageRequest extends AsyncTask<String, Void, Object>
+    class GetImageRequest extends AsyncTask<String, Void, Bitmap>
     {
+        ImageView bmImage;
+
+        public GetImageRequest(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
         protected void onPreExecute (){
 
         }
 
-        protected Object doInBackground(String... params)
+        protected Bitmap doInBackground(String... params)
         {
-
-            InputStream inputStream = null;
+            String urldisplay = params[0];
+            Bitmap mIcon11 = null;
             try {
-
-                URL url = new URL(params[0]);
-                URLConnection conn = url.openConnection();
-                HttpURLConnection httpConn = (HttpURLConnection) conn;
-                httpConn.setRequestMethod("GET");
-                httpConn.connect();
-
-                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpConn.getInputStream();
-                }
-            } catch (Exception ex) {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
             }
-            return inputStream;
-//            try{
+            return mIcon11;
+
+//            InputStream inputStream = null;
+//            try {
+//
 //                URL url = new URL(params[0]);
-//                Object content = url.getContent();
-//                return content;
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//                return null;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return null;
+//                URLConnection conn = url.openConnection();
+//                HttpURLConnection httpConn = (HttpURLConnection) conn;
+//                httpConn.setRequestMethod("GET");
+//                httpConn.connect();
+//
+//                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//                    inputStream = httpConn.getInputStream();
+//                }
+//            } catch (Exception ex) {
 //            }
+//            return inputStream;
+
         }
 
-        protected void onPostExecute(Object content) {
-            Bitmap bitmap = null;
-            InputStream is = null;
-            try {
-                BitmapFactory.Options bmOptions;
-                bmOptions = new BitmapFactory.Options();
-                bmOptions.inSampleSize = 1;
-                is = (InputStream) content;
-                bitmap = BitmapFactory.decodeStream(is, null, bmOptions);
-                is.close();
-            } catch (IOException e1) {
-            }
-            Drawable d = Drawable.createFromStream(is, "src");
-
-//            albumNameView = (TextView) getActivity().findViewById(R.id.textView);
-//            albumNameView.setText(searchResult.getAlbumName());
-            albumCoverView = (ImageView) getActivity().findViewById(R.id.albumCoverImage);
-            albumCoverView.setImageBitmap(bitmap);
-            //onAlbumCoverDownloaded(d);
+        protected void onPostExecute(Bitmap result) {
+            //pDlg.dismiss();
+            bmImage.setImageBitmap(result);
         }
+//        protected void onPostExecute(Object content) {
+//            Bitmap bitmap = null;
+//            InputStream is = null;
+//            try {
+//                BitmapFactory.Options bmOptions;
+//                bmOptions = new BitmapFactory.Options();
+//                bmOptions.inSampleSize = 1;
+//                is = (InputStream) content;
+//                bitmap = BitmapFactory.decodeStream(is, null, bmOptions);
+//                //is.close();
+//            } catch (Exception e1) {
+//            }
+//
+//
+//            albumCoverView.setImageBitmap(bitmap);
+//        }
     }
 }
