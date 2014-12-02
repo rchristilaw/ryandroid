@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Collections;
 
 public class AlbumListFragment extends ListFragment {
 
@@ -31,8 +33,21 @@ public class AlbumListFragment extends ListFragment {
 
         Bundle b = getArguments();
         albums = b.getParcelableArrayList("albumList");
+        FilterList();
+        Collections.sort(albums);
         setListAdapter(new ArrayAdapter<Album>(getActivity(), android.R.layout.simple_list_item_1, albums));
 
+    }
+
+    private void FilterList(){
+        ArrayList<Album> tempList = new ArrayList<Album>();
+        Date dateNow = new Date();
+        for (int i = 0; i < albums.size(); i++){
+            if(albums.get(i).getReleaseDate().after(dateNow)){
+                tempList.add(albums.get(i));
+            }
+        }
+        albums = tempList;
     }
 
     @Override

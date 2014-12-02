@@ -4,10 +4,14 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Ryan on 2014-10-25.
  */
-public class Album implements Parcelable {
+public class Album implements Parcelable, Comparable<Album> {
 
     // JSON Node names
     public static final String TAG_TYPE = "wrapperType";
@@ -66,10 +70,21 @@ public class Album implements Parcelable {
         this.albumPrice = albumPrice;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
-    }
+//    public String getReleaseDate() {
+//        return releaseDate;
+//    }
 
+    public Date getReleaseDate()
+    {
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(releaseDate);
+            return date;
+        }
+        catch(ParseException e){
+            return null;
+        }
+
+    }
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
@@ -133,6 +148,11 @@ public class Album implements Parcelable {
         dest.writeString(albumPrice);
         dest.writeString(releaseDate);
         dest.writeString(albumCoverUrl);
+    }
+
+    public int compareTo(Album album)
+    {
+        return getReleaseDate().compareTo(album.getReleaseDate());
     }
 
 }

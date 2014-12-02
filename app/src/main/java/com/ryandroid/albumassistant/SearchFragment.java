@@ -77,7 +77,7 @@ public class SearchFragment extends Fragment {
         protected ArrayList<Album> doInBackground(String... params) {
             WebClient webClient = new WebClient();
             String searchString = params[0].replaceAll(" ", "+");
-            return webClient.CreateRequest("https://itunes.apple.com/search?term="+searchString+"&entity=album&limit=15");
+            return webClient.CreateRequest("https://itunes.apple.com/search?term="+searchString+"&entity=album&limit=200");
         }
 
         protected void onPostExecute(ArrayList<Album> searchResults) {

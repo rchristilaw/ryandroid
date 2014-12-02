@@ -19,22 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AlbumListActivity"
-            android:label="@string/app_name" >
-            android:parentActivityName="com.ryandroid.albumassistant.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ryandroid.albumassistant.MainActivity" />
-        </activity>
-        <activity
-            android:name=".AlbumViewActivity"
-            android:label="@string/title_activity_album_view"
-            android:parentActivityName=".AlbumListActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ryandroid.albumassistant.AlbumListActivity" />
-        </activity>
     </application>
 
 </manifest>

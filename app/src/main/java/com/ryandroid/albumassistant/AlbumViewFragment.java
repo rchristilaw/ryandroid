@@ -26,6 +26,7 @@ public class AlbumViewFragment extends Fragment {
 
     Album searchResult;
     TextView albumNameView;
+    TextView releaseDateView;
     ImageView albumCoverView;
 
     public AlbumViewFragment() {
@@ -52,6 +53,9 @@ public class AlbumViewFragment extends Fragment {
 
         albumNameView = (TextView) view.findViewById(R.id.albumNameTextView);
         albumNameView.setText(album.getAlbumName());
+        releaseDateView = (TextView) view.findViewById(R.id.releaseDateTextView);
+        releaseDateView.setText(album.getReleaseDate().toString());
+
         albumCoverView = (ImageView) view.findViewById(R.id.albumCoverImage);
 
         new GetImageRequest(albumCoverView).execute(album.getAlbumCoverUrl());

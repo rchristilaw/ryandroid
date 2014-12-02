@@ -1,8 +1,9 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppTheme">
         <!-- Customize your theme here. -->
     </style>
 
+    <color name="menuColour">#6eb43f</color>
 </resources>
