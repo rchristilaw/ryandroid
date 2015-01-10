@@ -31,7 +31,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="111dp">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:layout_width="wrap_content"
@@ -64,6 +64,29 @@
                 android:layout_marginTop="0dp" />
 
         </LinearLayout>
+        <GridLayout
+            android:id="@+id/AdvancedSearchGrid"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:columnCount="2"
+            android:rowCount="3">
+            <TextView
+                android:layout_column="0"
+                android:layout_row="0"
+                android:text="Genre"
+                />
+            <EditText android:id="@+id/SearchGenre"
+                android:layout_column="1"
+                android:layout_row="0"/>
+            <TextView
+                android:layout_column="0"
+                android:layout_row="1"
+                android:text="Artist"
+                />
+            <EditText android:id="@+id/SearchArtist"
+                android:layout_column="1"
+                android:layout_row="1"/>
+        </GridLayout>
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
